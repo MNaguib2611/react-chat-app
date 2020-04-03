@@ -1,25 +1,27 @@
 import React ,{useState , useEffect} from 'react';
 import './App.css';
 import axios from 'axios';
+import io from 'socket.io-client';
+
+
+
+
+
+const socket =io.connect("http://localhost:3000")
+
 
 const names = ["ahmed","mohammed","Ali","islam","omar","mena"]
-const  id= Math.ceil(Math.random() * 10000);
 const username= names[Math.floor((names.length)*Math.random())];
 function App(props) {
+const [messages,setMessages]=useState([]);
+const [input,setInput]=useState("");
 
-  const [messages,setMessages]=useState([]);
-  const [input,setInput]=useState("");
 
-const subscribe = (messages) => {
-  axios.post("http://localhost:3000/subscribe",{id}).then((res) =>{
-    setMessages(messages.concat(res.data));
-    subscribe(messages.concat(res.data));
-  });
-}
 
 useEffect( () => {
-  subscribe(messages);
+  socket.on("new-message",(newMsg)=>setMessages(messages => messages.concat(newMsg)));
 },[]);
+
 
 const handleChange = (e)=> {
   const {target:{value}} = e;
@@ -28,7 +30,7 @@ const handleChange = (e)=> {
 
 const addNewMessage = (e)=> {
   setInput("");
-  axios.post("http://localhost:3000/messageSubscribers",{content : input,username})
+  socket.emit('message',{content:input,username});
 }
 
 
@@ -37,12 +39,12 @@ const addNewMessage = (e)=> {
        <div className="col-lg-12 app">
     <div className="row app-one">
 
-      <div className="col-sm-4 side">
+      {/* <div className="col-sm-4 side">
         <div className="side-one">
           <div className="row heading">
             <div className="col-sm-3 col-xs-3 heading-avatar">
               <div className="heading-avatar-icon">
-                <img src="http://shurl.esy.es/y"   alt="profile"></img>
+                <img src=""   alt="profile"></img>
               </div>
             </div>
             <div className="col-sm-1 col-xs-1  heading-dot  pull-right">
@@ -66,7 +68,7 @@ const addNewMessage = (e)=> {
             <div className="row sideBar-body">
               <div className="col-sm-3 col-xs-3 sideBar-avatar">
                 <div className="avatar-icon">
-                  <img src="http://shurl.esy.es/y"   alt="profile"></img>
+                  <img src=""   alt="profile"></img>
                 </div>
               </div>
               <div className="col-sm-9 col-xs-9 sideBar-main">
@@ -85,7 +87,7 @@ const addNewMessage = (e)=> {
             <div className="row sideBar-body">
               <div className="col-sm-3 col-xs-3 sideBar-avatar">
                 <div className="avatar-icon">
-                  <img src="http://shurl.esy.es/y"   alt="profile"></img>
+                  <img src=""   alt="profile"></img>
                 </div>
               </div>
               <div className="col-sm-9 col-xs-9 sideBar-main">
@@ -104,7 +106,7 @@ const addNewMessage = (e)=> {
             <div className="row sideBar-body">
               <div className="col-sm-3 col-xs-3 sideBar-avatar">
                 <div className="avatar-icon">
-                  <img src="http://shurl.esy.es/y"   alt="profile"></img>
+                  <img src=""   alt="profile"></img>
                 </div>
               </div>
               <div className="col-sm-9 col-xs-9 sideBar-main">
@@ -148,7 +150,7 @@ const addNewMessage = (e)=> {
             <div className="row sideBar-body">
               <div className="col-sm-3 col-xs-3 sideBar-avatar">
                 <div className="avatar-icon">
-                  <img src="http://shurl.esy.es/y"   alt="profile"></img>
+                  <img src=""   alt="profile"></img>
                 </div>
               </div>
               <div className="col-sm-9 col-xs-9 sideBar-main">
@@ -168,7 +170,7 @@ const addNewMessage = (e)=> {
             <div className="row sideBar-body">
               <div className="col-sm-3 col-xs-3 sideBar-avatar">
                 <div className="avatar-icon">
-                  <img src="http://shurl.esy.es/y"     alt="profile"></img>
+                  <img src=""     alt="profile"></img>
                 </div>
               </div>
               <div className="col-sm-9 col-xs-9 sideBar-main">
@@ -187,7 +189,7 @@ const addNewMessage = (e)=> {
             <div className="row sideBar-body">
               <div className="col-sm-3 col-xs-3 sideBar-avatar">
                 <div className="avatar-icon">
-                  <img src="http://shurl.esy.es/y"    alt="profile"></img>
+                  <img src=""    alt="profile"></img>
                 </div>
               </div>
               <div className="col-sm-9 col-xs-9 sideBar-main">
@@ -206,7 +208,7 @@ const addNewMessage = (e)=> {
             <div className="row sideBar-body">
               <div className="col-sm-3 col-xs-3 sideBar-avatar">
                 <div className="avatar-icon">
-                  <img src="http://shurl.esy.es/y"    alt="profile"></img>
+                  <img src=""    alt="profile"></img>
                 </div>
               </div>
               <div className="col-sm-9 col-xs-9 sideBar-main">
@@ -225,7 +227,7 @@ const addNewMessage = (e)=> {
             <div className="row sideBar-body">
               <div className="col-sm-3 col-xs-3 sideBar-avatar">
                 <div className="avatar-icon">
-                  <img src="http://shurl.esy.es/y"    alt="profile"></img>
+                  <img src=""    alt="profile"></img>
                 </div>
               </div>
               <div className="col-sm-9 col-xs-9 sideBar-main">
@@ -244,7 +246,7 @@ const addNewMessage = (e)=> {
             <div className="row sideBar-body">
               <div className="col-sm-3 col-xs-3 sideBar-avatar">
                 <div className="avatar-icon">
-                  <img src="http://shurl.esy.es/y"    alt="profile"></img>
+                  <img src=""    alt="profile"></img>
                 </div>
               </div>
               <div className="col-sm-9 col-xs-9 sideBar-main">
@@ -263,7 +265,7 @@ const addNewMessage = (e)=> {
             <div className="row sideBar-body">
               <div className="col-sm-3 col-xs-3 sideBar-avatar">
                 <div className="avatar-icon">
-                  <img src="http://shurl.esy.es/y"  alt="profile"></img>
+                  <img src=""  alt="profile"></img>
                 </div>
               </div>
               <div className="col-sm-9 col-xs-9 sideBar-main">
@@ -282,7 +284,7 @@ const addNewMessage = (e)=> {
             <div className="row sideBar-body">
               <div className="col-sm-3 col-xs-3 sideBar-avatar">
                 <div className="avatar-icon">
-                  <img src="http://shurl.esy.es/y"  alt="profile"></img>
+                  <img src=""  alt="profile"></img>
                 </div>
               </div>
               <div className="col-sm-9 col-xs-9 sideBar-main">
@@ -301,7 +303,7 @@ const addNewMessage = (e)=> {
             <div className="row sideBar-body">
               <div className="col-sm-3 col-xs-3 sideBar-avatar">
                 <div className="avatar-icon">
-                  <img src="http://shurl.esy.es/y"   alt="profile"></img>
+                  <img src=""   alt="profile"></img>
                 </div>
               </div>
               <div className="col-sm-9 col-xs-9 sideBar-main">
@@ -320,7 +322,7 @@ const addNewMessage = (e)=> {
             <div className="row sideBar-body">
               <div className="col-sm-3 col-xs-3 sideBar-avatar">
                 <div className="avatar-icon">
-                  <img src="http://shurl.esy.es/y"   alt="profile"></img>
+                  <img src=""   alt="profile"></img>
                 </div>
               </div>
               <div className="col-sm-9 col-xs-9 sideBar-main">
@@ -338,18 +340,18 @@ const addNewMessage = (e)=> {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
 
 
-      <div className="col-sm-8 conversation">
+      <div className="col-sm-12 conversation">
         <div className="row heading">
           <div className="col-sm-2 col-md-1 col-xs-3 heading-avatar">
             <div className="heading-avatar-icon">
             </div>
           </div>
           <div className="col-sm-8 col-xs-7 heading-name">
-            <a className="heading-name-meta">Ankit Jain
+            <a className="heading-name-meta">{username}
             </a>
             <span className="heading-online">Online</span>
           </div>
